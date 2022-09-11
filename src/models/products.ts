@@ -1,3 +1,4 @@
+import { Pool } from 'pg';
 import { type } from 'os';
 import client from '../database';
 
@@ -10,7 +11,7 @@ export type product = {
 export class Store {
   async index(): Promise<product[]> {
     try {
-      const conn = await client.connect();
+      const conn = await (client as Pool).connect();
       const sql = 'SELECT * FROM products';
       const result = await conn.query(sql);
       conn.release();
@@ -22,7 +23,7 @@ export class Store {
   async show(id: Number): Promise<product[]> {
     try {
     const sql = 'SELECT * FROM products WHERE id=($1)'
-    const conn = await client.connect()
+    const conn = await (client as Pool).connect()
 
     const result = await conn.query(sql, [id])
 
@@ -36,7 +37,7 @@ export class Store {
   async create(p: product): Promise<product[]> {
     try {
   const sql = 'INSERT INTO products (name, price, id) VALUES($1, $2, $3) RETURNING *'
-  const conn = await client.connect()
+  const conn = await (client as Pool).connect()
 
   const result = await conn.query(sql, [p.name, p.price, p.id])
 
