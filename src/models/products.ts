@@ -1,5 +1,4 @@
 import { Pool } from 'pg';
-import { type } from 'os';
 import client from '../database';
 
 export type product = {
@@ -9,7 +8,7 @@ export type product = {
 };
 
 export class Store {
-  async index(): Promise<product[]> {
+  async index(): Promise<product[] | product>  {
     try {
       const conn = await (client as Pool).connect();
       const sql = 'SELECT * FROM products';
@@ -20,7 +19,7 @@ export class Store {
       throw new Error(`Can not get list of products ${err}`);
     }
   }
-  async show(id: Number): Promise<product[]> {
+  async show(id : Number): Promise<product[]> {
     try {
     const sql = 'SELECT * FROM products WHERE id=($1)'
     const conn = await (client as Pool).connect()
