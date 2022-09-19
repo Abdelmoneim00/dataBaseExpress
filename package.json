@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/Abdelmoneim00/dataBaseExpress#readme",
   "devDependencies": {
+    "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.13",
     "@types/jasmine": "^4.3.0",
     "@types/jsonwebtoken": "^8.5.9",
