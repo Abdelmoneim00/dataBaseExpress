@@ -1,8 +1,8 @@
-import { product, Store } from "../models/products";
+import { product, Store } from '../models/products';
 
-const store = new Store
+const store = new Store();
 
-describe("Store Model", () => {
+describe('Store Model', () => {
   it('should have an index method', () => {
     expect(store.index).toBeDefined();
   });
@@ -17,32 +17,32 @@ describe("Store Model", () => {
 
   it('create method should add a product', async () => {
     const result = await store.create({
-        id: 1,
-        name : "mango",
-        price : 50
+      id: 1,
+      name: 'mango',
+      price: 50,
     });
     expect(result as unknown | Promise<product>).toEqual({
       id: 1,
-      name : "mango",
-      price : 50
+      name: 'mango',
+      price: 50,
     });
   });
 
   it('index method should return a list of product', async () => {
     const result = await store.index();
     expect(result as unknown | Promise<product>).toEqual({
-        id: 1,
-        name : "mango",
-        price : 50
+      id: 1,
+      name: 'mango',
+      price: 50,
     });
   });
 
   it('show method should return the correct product', async () => {
     const result = await store.show(1);
     expect(result as unknown | Promise<product>).toEqual({
-        name : 'mango',
-        id: 1,
-        price : 50
+      name: 'mango',
+      id: 1,
+      price: 50,
     });
   });
 });

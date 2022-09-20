@@ -34,5 +34,10 @@ const create = async (req, res) => {
 };
 const routeP = (app) => {
     app.get('/products', index);
-    app.get('products/show', show);
+    app.get('products/show/:id', show);
+    app.get('/products/create', create);
+    app.get('/', (req, res) => {
+        res.send('hi');
+    });
 };
+exports.default = routeP;

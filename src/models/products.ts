@@ -8,7 +8,7 @@ export type product = {
 };
 
 export class Store {
-  async index(): Promise<product[] | product>  {
+  async index(): Promise<product[] | product> {
     try {
       const conn = await (client as Pool).connect();
       const sql = 'SELECT * FROM products';
@@ -19,34 +19,35 @@ export class Store {
       throw new Error(`Can not get list of products ${err}`);
     }
   }
-  async show(id : Number): Promise<product[]> {
+  async show(id: Number): Promise<product[]> {
     try {
-    const sql = 'SELECT * FROM products WHERE id=($1)'
-    const conn = await (client as Pool).connect()
+      const sql = 'SELECT * FROM products WHERE id=($1)';
+      const conn = await (client as Pool).connect();
 
-    const result = await conn.query(sql, [id])
+      const result = await conn.query(sql, [id]);
 
-    conn.release()
+      conn.release();
 
-    return result.rows[0]
+      return result.rows[0];
     } catch (err) {
-        throw new Error(`Could not find product ${id}. Error: ${err}`)
+      throw new Error(`Could not find product ${id}. Error: ${err}`);
     }
   }
   async create(p: product): Promise<product[]> {
     try {
-  const sql = 'INSERT INTO products (name, price, id) VALUES($1, $2, $3) RETURNING *'
-  const conn = await (client as Pool).connect()
+      const sql =
+        'INSERT INTO products (name, price, id) VALUES($1, $2, $3) RETURNING *';
+      const conn = await (client as Pool).connect();
 
-  const result = await conn.query(sql, [p.name, p.price, p.id])
+      const result = await conn.query(sql, [p.name, p.price, p.id]);
 
-  const item = result.rows[0]
+      const item = result.rows[0];
 
-  conn.release()
+      conn.release();
 
-  return item
+      return item;
     } catch (err) {
-        throw new Error(`Could not add new item ${p.name}. Error: ${err}`)
+      throw new Error(`Could not add new item ${p.name}. Error: ${err}`);
     }
-}
+  }
 }

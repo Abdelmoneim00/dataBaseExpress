@@ -1,19 +1,18 @@
-import {Store} from "./models/products"
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
+import routes from './handlers/prohandler';
+import cors from 'cors';
 
 const app = express();
 
-const address: string = '0.0.0.0:3000';
+const address: number = 3000;
 
-app.use(bodyParser.json());
+app.use(bodyParser.json(), routes);
+app.use(cors());
+app.get;
 
-app.get('/products', (req: Request, res: Response) => {
-  res.send(`${Store}`)
-});
-
-app.listen(3000, () => {
-  `app is working on ${address}`;
+app.listen(address, () => {
+  console.log(`app is working on localhost:${address}`);
 });
 
 export default app;
