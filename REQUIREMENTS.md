@@ -6,18 +6,26 @@ These are the notes from a meeting with the frontend developer that describe wha
 ## API Endpoints
 #### Products
 - Index 
+localhost:3000/products
 - Show
+localhost:3000/products/show
 - Create [token required]
+localhost:3000/products/create
 - [OPTIONAL] Top 5 most popular products 
 - [OPTIONAL] Products by category (args: product category)
 
 #### Users
 - Index [token required]
+localhost:3000/users
 - Show [token required]
+localhost:3000/users/show
 - Create N[token required]
+localhost:3000/users/create
 
 #### Orders
 - Current Order by user (args: user id)[token required]
+localhost:3000/orders/show (to show an order)
+localhost:3000/orders/create (to create new order)
 - [OPTIONAL] Completed Orders by user (args: user id)[token required]
 
 ## Data Shapes
