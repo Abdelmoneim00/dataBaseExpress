@@ -45,8 +45,7 @@ export class users {
   }
   async create(u: User): Promise<User[]> {
     try {
-      const sql =
-        'INSERT INTO users (firstName, lastName, id, password) VALUES($1, $2, $3, $4) RETURNING *';
+      const sql = 'INSERT INTO users (firstName, lastName, id, password) VALUES($1, $2, $3, $4) RETURNING *';
       const conn = await (client as Pool).connect();
 
       const hashsy = bcrypt.hashSync((u.password as string) + PEPPER as string, +(SALT_ROUNDS as string) as number);
@@ -64,7 +63,7 @@ export class users {
 
       return item;
     } catch (err) {
-      throw new Error(`Could not add new item ${u.firstName}. Error: ${err}`);
+      throw new Error(`Could not add new ${u.firstName}. Error: ${err}`);
     }
   }
 }

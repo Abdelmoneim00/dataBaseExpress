@@ -10,6 +10,7 @@ const address: number = 3000;
 app.use(bodyParser.json(), routes);
 app.use(cors());
 app.get;
+app.post;
 
 app.listen(address, () => {
   console.log(`app is working on localhost:${address}`);

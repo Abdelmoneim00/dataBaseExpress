@@ -1,5 +1,6 @@
 import express, { Request, Response, Router } from 'express';
 import { product, Store } from '../models/products';
+import { authenticateToken } from '../middlewares/auth';
 
 const store = new Store();
 
@@ -42,6 +43,6 @@ const create = async (req: Request, res: Response) => {
 
 routesP.get('/products', index);
 routesP.get('products/show', show);
-routesP.post('/products/create', create);
+routesP.post('/products/create',authenticateToken, create);
 
 export default routesP;

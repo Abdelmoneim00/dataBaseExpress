@@ -1,5 +1,6 @@
 import express, { Request, Response, Router } from 'express';
 import { Order, orders } from '../models/orders';
+import { authenticateToken } from '../middlewares/auth';
 
 const order = new orders();
 
@@ -33,7 +34,7 @@ const create = async (req: Request, res: Response) => {
   }
 };
 
-routesP.get('orders/show', showOrder);
-routesP.post('/orders/create', create);
+routesP.get('orders/show',authenticateToken, showOrder);
+routesP.post('/orders/create',authenticateToken, create);
 
 export default routesP;

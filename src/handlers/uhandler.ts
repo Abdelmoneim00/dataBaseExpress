@@ -1,3 +1,5 @@
+import { authenticateToken } from './../middlewares/auth';
+import jwt from 'jsonwebtoken';
 import { User, users } from './../models/users';
 import express, { Request, Response, Router } from 'express';
 
@@ -27,23 +29,26 @@ const create = async (req: Request, res: Response) => {
   let lastName : string = req.body.lastName;
   let password: String = req.body.password;
   let Id: String = req.body.id;
+  const newUser = {
+    id: +Id,
+    firstName: name,
+    lastName : lastName,
+    password : password,
+  }
   try {
-    const returnP = await user.create({
-      id: +Id,
-      firstName: name,
-      lastName : lastName,
-      password : password,
-    });
-    res.json(returnP);
+    const returnP = await user.create(newUser);
+    const token = jwt.sign({newUser : returnP}, process.env.ACCESS_TOKEN_SECRET as string);
+    res.json(token);
   } catch (err: unknown) {
+    res.status(400)
     throw new Error(
       `can not create the user, an internal error occured? ${err}`
     );
   }
 };
 
-routesP.get('/users', index);
-routesP.get('users/show', show);
+routesP.get('/users',authenticateToken, index);
+routesP.get('users/show',authenticateToken, show);
 routesP.post('/users/create', create);
 
 export default routesP;
