@@ -8,15 +8,17 @@ export const authenticateToken = (
 ) => {
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(' ')[1];
-  if (token == null || undefined || '')  {
+  if (token == null || undefined || '') {
     return res.sendStatus(401);
   } else {
-  jwt.verify(
-    token,
-    process.env.ACCESS_TOKEN_SECRET as string,
-    (err, user) => {
-    if (err) return res.sendStatus(403);
-    req.body.user = user;
-    next();
-  });
-}};
+    jwt.verify(
+      token,
+      process.env.ACCESS_TOKEN_SECRET as string,
+      (err, user) => {
+        if (err) return res.sendStatus(403);
+        req.body.user = user;
+        next();
+      }
+    );
+  }
+};

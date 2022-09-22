@@ -1,15 +1,21 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
 const products_1 = require("../models/products");
-const store = new products_1.Store;
+const auth_1 = require("../middlewares/auth");
+const store = new products_1.Store();
+const productRoute = express_1.default.Router();
 const index = async (_req, res) => {
     const returnP = await store.index();
     res.json(returnP);
 };
 const show = async (req, res) => {
-    let id = req.params.id;
+    let id = req.body.id;
     try {
-        const returnP = await store.show(+id);
+        const returnP = await store.show(id);
         res.json(returnP);
     }
     catch (err) {
@@ -17,27 +23,22 @@ const show = async (req, res) => {
     }
 };
 const create = async (req, res) => {
-    let name = req.params.name;
-    let price = req.params.price;
-    let Id = req.params.id;
+    let name = req.body.name;
+    let price = req.body.price;
+    let Id = req.body.id;
     try {
         const returnP = await store.create({
             id: +Id,
             name: name,
-            price: +price
+            price: +price,
         });
         res.json(returnP);
     }
     catch (err) {
-        throw new Error(`can not get the item, maybe try creating it first? ${err}`);
+        throw new Error(`can not get the item, maybe try creating user first? ${err}`);
     }
 };
-const routeP = (app) => {
-    app.get('/products', index);
-    app.get('products/show/:id', show);
-    app.get('/products/create', create);
-    app.get('/', (req, res) => {
-        res.send('hi');
-    });
-};
-exports.default = routeP;
+productRoute.get('/', index);
+productRoute.get('/show', show);
+productRoute.post('/create', auth_1.authenticateToken, create);
+exports.default = productRoute;

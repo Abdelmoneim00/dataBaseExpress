@@ -5,7 +5,7 @@ import express, { Request, Response, Router } from 'express';
 
 const user = new users();
 
-const routesP: Router = express.Router();
+const userRoute: Router = express.Router();
 
 const index = async (_req: Request, res: Response) => {
   const returnP = await user.index();
@@ -26,29 +26,32 @@ const show = async (req: Request, res: Response) => {
 
 const create = async (req: Request, res: Response) => {
   let name: String = req.body.firstName;
-  let lastName : string = req.body.lastName;
+  let lastName: string = req.body.lastName;
   let password: String = req.body.password;
   let Id: String = req.body.id;
   const newUser = {
     id: +Id,
     firstName: name,
-    lastName : lastName,
-    password : password,
-  }
+    lastName: lastName,
+    password: password,
+  };
   try {
     const returnP = await user.create(newUser);
-    const token = jwt.sign({newUser : returnP}, process.env.ACCESS_TOKEN_SECRET as string);
+    const token = jwt.sign(
+      { newUser: returnP },
+      process.env.ACCESS_TOKEN_SECRET as string
+    );
     res.json(token);
   } catch (err: unknown) {
-    res.status(400)
+    res.status(400);
     throw new Error(
       `can not create the user, an internal error occured? ${err}`
     );
   }
 };
 
-routesP.get('/users',authenticateToken, index);
-routesP.get('users/show',authenticateToken, show);
-routesP.post('/users/create', create);
+userRoute.get('/', authenticateToken, index);
+userRoute.get('/show', authenticateToken, show);
+userRoute.post('/create', create);
 
-export default routesP;
+export default userRoute;

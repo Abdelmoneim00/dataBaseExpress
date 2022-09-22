@@ -4,7 +4,7 @@ import { authenticateToken } from '../middlewares/auth';
 
 const store = new Store();
 
-const routesP: Router = express.Router();
+const productRoute: Router = express.Router();
 
 const index = async (_req: Request, res: Response) => {
   const returnP = await store.index();
@@ -12,9 +12,9 @@ const index = async (_req: Request, res: Response) => {
 };
 
 const show = async (req: Request, res: Response) => {
-  let id: String = req.params.id;
+  let id : number = req.body.id
   try {
-    const returnP = await store.show(+id as Number);
+    const returnP = await store.show(id as Number);
     res.json(returnP);
   } catch (err: unknown) {
     throw new Error(
@@ -41,8 +41,8 @@ const create = async (req: Request, res: Response) => {
   }
 };
 
-routesP.get('/products', index);
-routesP.get('products/show', show);
-routesP.post('/products/create',authenticateToken, create);
+productRoute.get('/', index);
+productRoute.get('/show', show);
+productRoute.post('/create', authenticateToken, create);
 
-export default routesP;
+export default productRoute;

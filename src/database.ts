@@ -8,12 +8,17 @@ let client: Pool | unknown;
 let {
   POSTGRES_HOST,
   POSTGRES_DB,
+  POSTGRES_TEST_DB,
   POSTGRES_USER,
   POSTGRES_PASSWORD,
-  POSTGRES_TEST_DB,
   ENV,
 } = process.env;
-console.log(ENV);
+
+if (ENV == 'test') {
+  console.log('test');
+} else {
+  console.log('dev');
+}
 
 if ((ENV = 'dev')) {
   client = new Pool({

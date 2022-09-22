@@ -2,7 +2,7 @@ import { Pool } from 'pg';
 import client from '../database';
 
 export type Order = {
-  id : number;
+  id: number;
   user_id: number;
   status: string;
   product_id: number[];
@@ -13,8 +13,7 @@ export class orders {
   async showOrder(id: number): Promise<Order[]> {
     try {
       const conn = await (client as Pool).connect();
-      const sql =
-        'SELECT product_id,quantity from order_product where id=($1)';
+      const sql = 'SELECT product_id,quantity from order_product where id=($1)';
       const result = await conn.query(sql, [id]);
       conn.release();
       return result.rows;
@@ -43,7 +42,7 @@ export class orders {
         o.status,
         o.id,
         o.quantity,
-        o.product_id
+        o.product_id,
       ]);
       conn.release();
       return user_result.rows[0];

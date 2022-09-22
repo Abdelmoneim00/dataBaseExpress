@@ -3,10 +3,7 @@ import client from '../database';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 
-let {
-  SALT_ROUNDS,
-  PEPPER,
-} = process.env;
+let { SALT_ROUNDS, PEPPER } = process.env;
 
 dotenv.config();
 
@@ -45,10 +42,14 @@ export class users {
   }
   async create(u: User): Promise<User[]> {
     try {
-      const sql = 'INSERT INTO users (firstName, lastName, id, password) VALUES($1, $2, $3, $4) RETURNING *';
+      const sql =
+        'INSERT INTO users (firstName, lastName, id, password) VALUES($1, $2, $3, $4) RETURNING *';
       const conn = await (client as Pool).connect();
 
-      const hashsy = bcrypt.hashSync((u.password as string) + PEPPER as string, +(SALT_ROUNDS as string) as number);
+      const hashsy = bcrypt.hashSync(
+        ((u.password as string) + PEPPER) as string,
+        +(SALT_ROUNDS as string) as number
+      );
 
       const result = await conn.query(sql, [
         u.firstName,
