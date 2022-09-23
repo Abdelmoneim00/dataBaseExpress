@@ -7,8 +7,6 @@ const products_1 = require("../models/products");
 const supertest_1 = __importDefault(require("supertest"));
 const server_1 = __importDefault(require("../server"));
 const requestt = (0, supertest_1.default)(server_1.default);
-let Token;
-let id;
 const store = new products_1.Store();
 describe('Store Model', () => {
     it('should have an index method', () => {
@@ -35,8 +33,8 @@ describe('Store Model', () => {
     it('index method should return a list of product', async () => {
         const result = await store.index();
         expect(result).toEqual({
-            id: 1,
-            name: 'mango',
+            id: 2,
+            name: 'pinable',
             price: 50,
         });
     });
@@ -65,7 +63,6 @@ describe('Store Model', () => {
             product_price: 50,
             id: 2,
         });
-        id = response.body.id;
         expect(response.status).toBe(401);
     });
     it('should return the product id from the show endpoint', async () => {

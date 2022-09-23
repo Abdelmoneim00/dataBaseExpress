@@ -3,8 +3,6 @@ import supertest from 'supertest';
 import app from '../server';
 
 const requestt = supertest(app);
-let Token: string;
-let id: number;
 
 const store = new Store();
 
@@ -37,8 +35,8 @@ describe('Store Model', () => {
   it('index method should return a list of product', async () => {
     const result = await store.index();
     expect(result as unknown | Promise<product>).toEqual({
-      id: 1,
-      name: 'mango',
+      id: 2,
+      name: 'pinable',
       price: 50,
     });
   });
@@ -70,14 +68,13 @@ describe('Store Model', () => {
         product_price: 50,
         id: 2,
       });
-    id = response.body.id;
     expect(response.status).toBe(401);
   });
   it('should return the product id from the show endpoint', async () => {
     const response = await requestt
       .get('/products/show')
       .set('Content-type', 'application/json')
-      .send({ id : 1 });
+      .send({ id: 1 });
     expect(response.status).toBe(200);
   });
 });

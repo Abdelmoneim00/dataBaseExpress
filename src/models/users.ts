@@ -1,3 +1,5 @@
+import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 import { Pool } from 'pg';
 import client from '../database';
 import bcrypt from 'bcrypt';
@@ -46,16 +48,11 @@ export class users {
         'INSERT INTO users (firstName, lastName, id, password) VALUES($1, $2, $3, $4) RETURNING *';
       const conn = await (client as Pool).connect();
 
-      const hashsy = bcrypt.hashSync(
-        ((u.password as string) + PEPPER) as string,
-        +(SALT_ROUNDS as string) as number
-      );
-
       const result = await conn.query(sql, [
         u.firstName,
         u.lastName,
         u.id,
-        hashsy,
+        u.password,
       ]);
 
       const item = result.rows[0];

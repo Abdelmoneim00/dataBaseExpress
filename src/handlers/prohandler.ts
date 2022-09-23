@@ -12,7 +12,7 @@ const index = async (_req: Request, res: Response) => {
 };
 
 const show = async (req: Request, res: Response) => {
-  let id : number = req.body.id
+  let id: number = req.body.id;
   try {
     const returnP = await store.show(id as Number);
     res.json(returnP);

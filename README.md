@@ -1,34 +1,53 @@
-install all dependencies by running command
+To get started:
 
-```npm  install```
-create a .env file with all the required environment variables:
+1-clone this repo into your local machine
 
-  POSTGRES_HOST,
-  POSTGRES_DB,
-  POSTGRES_USER,
-  POSTGRES_PASSWORD,
-  POSTGRES_TEST_DB,
-  ENV,
-  BCRYPT_PASSWORD,
-  SALT_ROUNDS,
-  ACCESS_TOKEN_SECRET,
+2-install all dependencies by running the command npm i/ yarn add (make sure to install db-migrate globally "npm i -g db-migrate")
 
-run `npm run build` to build the app
-run ```npm run test``` to start testing 
+3-create a .env file with all the required environment variables:
 
-7-database is run on localhost port 5432 the project is running on port 3000
+POSTGRES_HOST = "127.0.0.1"
+POSTGRES_DB = "back_end"
+POSTGRES_USER = "postgres"
+POSTGRES_PASSWORD = "lookylooky7"
+POSTGRES_TEST_DB = "back_end_test"
+ENV="dev"
+BCRYPT_PASSWORD="hello"
+PEPPER = "x"
+SALT_ROUNDS="5"
+ACCESS_TOKEN_SECRET="welcome"
+4-Now, check if Postgres has the database database_dev, if not create it:
 
-Runing the program locally in development mode
-npm run start
+# Postgres shell
+create database  back_end;
+create database  back_end_test;
+5-for running tests :
+  A- make sure to run script "npm run reset" to reset all the data in database before testing.
+  B- make sure you have db for testing before running tests.
 
--and then head to your browser at localhost:3000 and it should be working.
+7-database is running on host 127.0.0.1 and app is running on port 3000.
+
+Runing the program locally in development mode:
+  A-`npm run start`
+  B- after running the command head to the the url localhost:3000/
+for checking the routes
+
+
+Test the app
+    `npm run test`
+before you test the app
+npm run reset
+to reset all the data in the testing database
 
 Runing the program locally in production mode
 npm run build
 
 node dist/index.js
 
-`npm run prettier` for code formatting
-
-`npm run lint` to use eslint
-
+scripts:
+-"npm run reset to reset the data"
+-"npm run test to test the project"
+-"npm run build convert typescript to javascript in dist folder"
+-"npm run start"
+-"npm lint run eslint"
+-"npm run prettier"

@@ -5,14 +5,14 @@ CREATE TABLE products (
 );
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    firstname VARCHAR(100),
-    lastname VARCHAR(100),
-    password VARCHAR(200)
+    firstname VARCHAR(50),
+    lastname VARCHAR(50),
+    password VARCHAR(500)
 );
 CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
-    user_id integer,
+    user_id bigint REFERENCES users(id),
     status VARCHAR(50),
-    product_id integer,
+    product_id bigint REFERENCES products(id),
     quantity integer
 );

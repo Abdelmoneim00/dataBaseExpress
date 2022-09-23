@@ -14,17 +14,17 @@ const showOrder = async (req, res) => {
     res.json(returnP);
 };
 const create = async (req, res) => {
-    let userId = +req.body.userId;
+    let userId = req.body.userId;
     let status = req.body.status;
-    let Id = +req.body.id;
-    let quantity = +req.body.quantity;
+    let Id = req.body.id;
+    let quantity = req.body.quantity;
     let productId = req.body.product_id;
     try {
         const returnP = await order.createOrder({
             user_id: userId,
             status: status,
             id: Id,
-            quantity: [quantity],
+            quantity: [+quantity],
             product_id: [productId],
         });
         res.json(returnP);

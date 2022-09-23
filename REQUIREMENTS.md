@@ -6,26 +6,83 @@ These are the notes from a meeting with the frontend developer that describe wha
 ## API Endpoints
 #### Products
 - Index 
-localhost:3000/products
+localhost:3000/products [GET]
+
+{no request body required}
+
 - Show
-localhost:3000/products/show
-- Create [token required]
-localhost:3000/products/create
+localhost:3000/products/show [GET]
+
+request.body for show route :
+{
+    id : 1 (any number of existing product)
+}
+
+- Create [token required] 
+localhost:3000/products/create [POST]
+
+request.body for create route :
+{
+    id:  number, <= must be a number
+    name:  'name of existing product', <= must be a string
+    price: number, <= must be a number
+    token: string, <= the token you get when sign a new user or login
+}
+
 - [OPTIONAL] Top 5 most popular products 
 - [OPTIONAL] Products by category (args: product category)
 
 #### Users
 - Index [token required]
-localhost:3000/users
+localhost:3000/users [GET]
+
+request.body for the users route :
+{
+    token : string, <= the token you get when you sign in a new user or log in
+}
+
 - Show [token required]
-localhost:3000/users/show
+localhost:3000/users/show [GET]
+
+request.body for the users/show route : 
+{
+    id : number, <= must be a number
+    token : string, <= the token you get when you sign in new user or log in
+}
+
 - Create N[token required]
-localhost:3000/users/create
+localhost:3000/users/create [POST]
+
+response.body for the users/create route :
+{
+    firstName: string, <= must be a string
+    lastName: string, <= must be a string
+    id: number, <= must be a unique number
+    password: 'string', <= must be a string
+}
 
 #### Orders
 - Current Order by user (args: user id)[token required]
-localhost:3000/orders/show (to show an order)
-localhost:3000/orders/create (to create new order)
+localhost:3000/orders/show (to show an order) [GET]
+
+request.body for the orders/show route :
+{
+    id : number, <= number of existing order
+    token : string, <= the token you get from signing a new user or logging in
+}
+
+localhost:3000/orders/create (to create new order) [POST]
+
+response.body for the orders/create route :
+{
+    user_id : number, <= id of current user signed in in the database
+    status : string, <= active or complete
+    id : number, <= number of the order itself
+    quantity : [number1,number2,number3], <= quantity of each product in numbers
+    product_id : [product1,produc2,product3], <= id of each product (must create one first)
+    token : string , <= token that you get after siging in new user or logging in
+}
+
 - [OPTIONAL] Completed Orders by user (args: user id)[token required]
 
 ## Data Shapes
@@ -35,11 +92,24 @@ localhost:3000/orders/create (to create new order)
 - price
 - [OPTIONAL] category
 
+table schema for products (
+    name VARCHAR(50),
+    price integer,
+    id SERIAL PRIMARY KEY
+);
+
 #### User
 - id
 - firstName
 - lastName
 - password
+
+table schema for users (
+    id SERIAL PRIMARY KEY,
+    firstname VARCHAR(50),
+    lastname VARCHAR(50),
+    password VARCHAR(500)
+);
 
 #### Orders
 - id
@@ -47,4 +117,10 @@ localhost:3000/orders/create (to create new order)
 - quantity of each product in the order
 - user_id
 - status of order (active or complete)
-
+table schema for orders (
+    id SERIAL PRIMARY KEY,
+    user_id bigint REFERENCES users(id),
+    status VARCHAR(50),
+    product_id bigint REFERENCES products(id),
+    quantity integer
+);
