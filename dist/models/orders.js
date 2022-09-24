@@ -21,7 +21,7 @@ class orders {
     async showUserOrder(user_id) {
         try {
             const conn = await database_1.default.connect();
-            const sql = 'SELECT id, status, quantity, product_id FROM orders where user_id=($1)';
+            const sql = 'SELECT id, status, user_id FROM orders where user_id=($1)';
             const result = await conn.query(sql, [user_id]);
             conn.release();
             return result.rows;
@@ -50,12 +50,11 @@ class orders {
     async createOrder(o) {
         try {
             const conn = await database_1.default.connect();
-            const sql = 'INSERT INTO orders(id,status,user_id,order_product_id) values ($1,$2,$3,$4) RETURNING *';
+            const sql = 'INSERT INTO orders(id,status,user_id) values ($1,$2,$3) RETURNING *';
             const user_result = await conn.query(sql, [
                 o.id,
                 o.status,
                 +o.user_id,
-                +o.order_product_id
             ]);
             conn.release();
             return user_result.rows[0];

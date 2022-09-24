@@ -16,13 +16,11 @@ const create = async (req: Request, res: Response) => {
   let userId: number = +req.body.user_id as number;
   let status: string = req.body.status;
   let Id: number = req.body.id;
-  let order_product_id : number[] = req.body.order_product_id;
   try {
     const returnP = await order.createOrder({
       user_id: +userId,
       status: status,
       id: Id,
-      order_product_id: order_product_id
     });
     res.json(returnP);
   } catch (err: unknown) {
@@ -35,14 +33,13 @@ const create = async (req: Request, res: Response) => {
 const addNewOrder = async (req : Request, res : Response) => {
   let id : number = req.body.id;
   let product_id : number = req.body.product_id;
-  let order_id : number = req.body.order_id;
+  let order_id : string = req.body.order_id;
   let quantity : number = req.body.quantity;
   try {
     const returnO = await order.addOrder({id, order_id, product_id, quantity});
-    console.log(returnO);
-    res.json(returnO);
+    res.json(returnO)
   } catch(err) {
-    res.send(err)
+    throw new Error(`${err}`)
   }  
 }
 

@@ -85,12 +85,12 @@ response.body for the orders/create route :
 addOrder [token required]
 /orders/addOrder [POST]
 
-response.body for the orders/create route :
+response.body for the orders/addOrder route :
 {
     order_id : number, <= id of order in the database orders table
     id : number, <= number of the order_product itself
-    quantity : [number1], <= quantity of each product in numbers
-    product_id : [product1,produc2,product3], <= id of each product (must create one first)
+    quantity : number, <= quantity of each product in numbers
+    product_id : number, <= id of each product (must create one first)
     token : string , <= token that you get after siging in new user or logging in
 }
 
@@ -128,19 +128,17 @@ table schema for users (
 - quantity of each product in the order
 - user_id
 - status of order (active or complete)
-table schema for orders (
+table schema for orders(
     id SERIAL PRIMARY KEY,
-    user_id bigint REFERENCES users(id),
-    status VARCHAR(50),
-    product_id bigint REFERENCES products(id),
-    quantity integer
+    user_id integer REFERENCES users(id),
+    status VARCHAR(15)
 );
 
 #### order_product
 
-CREATE TABLE order_product(
+order_product (
     id SERIAL PRIMARY KEY,
-    order_id integer,
-    product_id integer,
+    order_id integer REFERENCES orders(id),
+    product_id integer REFERENCES products(id),
     quantity integer
 );

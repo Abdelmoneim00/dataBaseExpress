@@ -5,12 +5,11 @@ export type Order = {
   id: number;
   user_id: number;
   status: string;
-  order_product_id : number[];
 };
 
 export type orderProduct = {
   id : number;
-  order_id : number;
+  order_id : string;
   product_id : number;
   quantity : number;
 }
@@ -30,7 +29,7 @@ export class orders {
   async showUserOrder(user_id: number): Promise<Order[]> {
     try {
       const conn = await (client as Pool).connect();
-      const sql = 'SELECT id, status, quantity, product_id FROM orders where user_id=($1)';
+      const sql = 'SELECT id, status, user_id FROM orders where user_id=($1)';
       const result = await conn.query(sql, [user_id]);
       conn.release();
       return result.rows;
@@ -58,12 +57,11 @@ export class orders {
     try {
       const conn = await (client as Pool).connect();
       const sql =
-        'INSERT INTO orders(id,status,user_id,order_product_id) values ($1,$2,$3,$4) RETURNING *';
+        'INSERT INTO orders(id,status,user_id) values ($1,$2,$3) RETURNING *';
       const user_result = await conn.query(sql, [
         o.id,
         o.status,
         +o.user_id,
-        +o.order_product_id
       ]);
       conn.release();
       return user_result.rows[0];

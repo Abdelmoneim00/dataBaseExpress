@@ -42,16 +42,28 @@ describe('Order Model and endpoints', () => {
     it('expect createOrder method to be defined', () => {
         expect(Orders.createOrder).toBeDefined();
     });
+    it('should create a new order with create route and return status OK', async () => {
+        const newOrder = {
+            user_id: 2,
+            status: 'active',
+            id: 1
+        };
+        const response = await requestt.post('/orders/create')
+            .set('Content-type', 'application/json')
+            .set('Authorization', 'Bearer ' + token)
+            .send(newOrder);
+        expect(response.status).toBe(200);
+    });
     it('should create a new order with addOrder method', async () => {
         const result = await Orders.addOrder({
             id: 1,
-            order_id: 1,
-            product_id: 1,
+            order_id: '1',
+            product_id: 2,
             quantity: 50
         });
         expect(result).toEqual([{
                 id: 1,
-                product_id: 1,
+                product_id: 2,
                 order_id: 1,
                 quantity: 50
             }]);
@@ -60,15 +72,14 @@ describe('Order Model and endpoints', () => {
         const response = await requestt.post('/orders/addOrder')
             .set('Content-type', 'application/json')
             .set('Authorization', 'Bearer ' + token)
-            .send({ quantity: 50, order_id: 2, id: 2, product_id: [1] });
-        expect(response.body).toEqual([{ order_id: 2, quantity: 50, id: 2, product_id: 1 }]);
+            .send({ quantity: 50, order_id: 1, id: 2, product_id: 2 });
+        expect(response.body).toEqual([{ quantity: 50, order_id: 1, id: 2, product_id: 2 }]);
     });
     it('should create a new order with create route and return status OK', async () => {
         const newOrder = {
             user_id: 2,
             status: 'active',
-            id: 1,
-            order_product_id: [1]
+            id: 2
         };
         const response = await requestt.post('/orders/create')
             .set('Content-type', 'application/json')
@@ -80,14 +91,13 @@ describe('Order Model and endpoints', () => {
         const newOrder = {
             user_id: 2,
             status: 'active',
-            id: 2,
-            order_product_id: [1]
+            id: 3,
         };
         const response = await requestt.post('/orders/create')
             .set('Content-type', 'application/json')
             .set('Authorization', 'Bearer ' + token)
             .send(newOrder);
-        expect(response.body).toEqual({ user_id: '2', status: 'active', id: 2, order_product_id: '1' });
+        expect(response.body).toEqual({ user_id: 2, status: 'active', id: 3 });
     });
     it('show order method should return the currect order', async () => {
         expect(Orders.showOrder(1)).toBeTruthy();

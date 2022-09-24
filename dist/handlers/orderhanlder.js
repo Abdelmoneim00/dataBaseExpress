@@ -17,13 +17,11 @@ const create = async (req, res) => {
     let userId = +req.body.user_id;
     let status = req.body.status;
     let Id = req.body.id;
-    let order_product_id = req.body.order_product_id;
     try {
         const returnP = await order.createOrder({
             user_id: +userId,
             status: status,
             id: Id,
-            order_product_id: order_product_id
         });
         res.json(returnP);
     }
@@ -38,11 +36,10 @@ const addNewOrder = async (req, res) => {
     let quantity = req.body.quantity;
     try {
         const returnO = await order.addOrder({ id, order_id, product_id, quantity });
-        console.log(returnO);
         res.json(returnO);
     }
     catch (err) {
-        res.send(err);
+        throw new Error(`${err}`);
     }
 };
 orderRoute.get('/show', auth_1.authenticateToken, showOrder);

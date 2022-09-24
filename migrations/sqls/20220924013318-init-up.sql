@@ -9,15 +9,14 @@ CREATE TABLE users (
     lastname VARCHAR(50),
     password VARCHAR(500)
 );
-CREATE TABLE order_product(
+CREATE TABLE orders(
     id SERIAL PRIMARY KEY,
-    order_id integer,
-    product_id integer,
-    quantity integer
+    user_id integer REFERENCES users(id),
+    status VARCHAR(15)
 );
-CREATE TABLE orders (
+CREATE TABLE order_product (
     id SERIAL PRIMARY KEY,
-    user_id bigint REFERENCES users(id),
-    status VARCHAR(50),
-    order_product_id bigint REFERENCES order_product(id)
+    order_id integer REFERENCES orders(id),
+    product_id integer REFERENCES products(id),
+    quantity integer
 );
