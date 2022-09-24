@@ -124,3 +124,10 @@ table schema for orders (
     product_id bigint REFERENCES products(id),
     quantity integer
 );
+
+CREATE TABLE order_product(
+    id SERIAL PRIMARY KEY,
+    order_id integer,
+    product_id integer,
+    quantity integer
+);

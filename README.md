@@ -7,15 +7,15 @@ To get started:
 3-create a .env file with all the required environment variables:
 
 POSTGRES_HOST = "127.0.0.1"
-POSTGRES_DB = "back_end"
-POSTGRES_USER = "postgres"
-POSTGRES_PASSWORD = "lookylooky7"
-POSTGRES_TEST_DB = "back_end_test"
-ENV="dev"
-BCRYPT_PASSWORD="hello"
-PEPPER = "x"
-SALT_ROUNDS="5"
-ACCESS_TOKEN_SECRET="welcome"
+POSTGRES_DB = your db for dev mode
+POSTGRES_USER = your user
+POSTGRES_PASSWORD = your password
+POSTGRES_TEST_DB = your testing database
+ENV = dev by default && can change it to test or prod
+BCRYPT_PASSWORD= your BCRYPT pass
+PEPPER = the letter you want to add as pepper
+SALT_ROUNDS= number of rounds to run while crypting
+ACCESS_TOKEN_SECRET= your token secret
 4-Now, check if Postgres has the database database_dev, if not create it:
 
 # Postgres shell
@@ -25,7 +25,9 @@ create database  back_end_test;
   A- make sure to run script "npm run reset" to reset all the data in database before testing.
   B- make sure you have db for testing before running tests.
 
-7-database is running on host 127.0.0.1 and app is running on port 3000.
+7-database is running on host 127.0.0.1 and port 5432 and app is running on port 3000.
+
+make sure to create order_product, user, and product before creating orders
 
 Runing the program locally in development mode:
   A-`npm run start`
