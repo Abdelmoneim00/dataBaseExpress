@@ -78,7 +78,18 @@ response.body for the orders/create route :
     user_id : number, <= id of current user signed in in the database
     status : string, <= active or complete
     id : number, <= number of the order itself
-    quantity : [number1,number2,number3], <= quantity of each product in numbers
+    order_product_id : [product1,produc2,product3], <= id of each product (must create one first)
+    token : string , <= token that you get after siging in new user or logging in
+}
+
+addOrder [token required]
+/orders/addOrder [POST]
+
+response.body for the orders/create route :
+{
+    order_id : number, <= id of order in the database orders table
+    id : number, <= number of the order_product itself
+    quantity : [number1], <= quantity of each product in numbers
     product_id : [product1,produc2,product3], <= id of each product (must create one first)
     token : string , <= token that you get after siging in new user or logging in
 }
@@ -124,6 +135,8 @@ table schema for orders (
     product_id bigint REFERENCES products(id),
     quantity integer
 );
+
+#### order_product
 
 CREATE TABLE order_product(
     id SERIAL PRIMARY KEY,
